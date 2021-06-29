@@ -5,6 +5,7 @@
 # Copyright 2018-2020 BasicSR Authors
 # ------------------------------------------------------------------------
 import torch
+import os
 
 # from basicsr.data import create_dataloader, create_dataset
 from basicsr.models import create_model
@@ -17,6 +18,8 @@ from basicsr.utils import FileClient, imfrombytes, img2tensor, padding
 
 def main():
     # parse options, set distributed setting, set ramdom seed
+    
+    os.chdir("..") # for debug :: chang root directory from HINet/basicrc  to HINet
     opt = parse_options(is_train=False)
 
     img_path = opt['img_path'].get('input_img')

@@ -3,6 +3,9 @@
 */*/__pycache__
 */*/*/__pycache__
 datasets/SIDD/
+datasets/Bone/
 experiments/
 results/
+wandb/
+tb_logger/
 .idea/

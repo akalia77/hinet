@@ -4,6 +4,7 @@
 # Modified from BasicSR (https://github.com/xinntao/BasicSR)
 # Copyright 2018-2020 BasicSR Authors
 # ------------------------------------------------------------------------
+
 import argparse
 import datetime
 import logging
@@ -11,6 +12,8 @@ import math
 import random
 import time
 import torch
+
+from os import chdir as oschdir
 from os import path as osp
 
 from basicsr.data import create_dataloader, create_dataset
@@ -35,7 +38,10 @@ def parse_options(is_train=True):
         default='none',
         help='job launcher')
     parser.add_argument('--local_rank', type=int, default=0)
-    args = parser.parse_args()
+    args = parser.parse_args(
+        [
+            "-opt", "./options/train/Bone/HINet.yml"
+            ])
     opt = parse(args.opt, is_train=is_train)
 
     # distributed settings
@@ -65,8 +71,14 @@ def parse_options(is_train=True):
 def init_loggers(opt):
     log_file = osp.join(opt['path']['log'],
                         f"train_{opt['name']}_{get_time_str()}.log")
+    
+    # logger = get_root_logger(
+        # logger_name='basicsr', log_level=logging.INFO, log_file=log_file)
+
     logger = get_root_logger(
-        logger_name='basicsr', log_level=logging.INFO, log_file=log_file)
+        logger_name='basicsr', log_level=logging.INFO)
+
+    
     logger.info(get_env_info())
     logger.info(dict2str(opt))
 
@@ -133,6 +145,7 @@ def create_train_val_dataloader(opt, logger):
 
 
 def main():
+    oschdir("..") # for debug :: chang root directory from HINet/basicrc  to HINet
     # parse options, set distributed setting, set ramdom seed
     opt = parse_options(is_train=True)
 
